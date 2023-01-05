@@ -1,0 +1,49 @@
+version: "3.8"
+name: go-mysql
+
+services:
+  db:
+    container_name: db
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    tty: true
+    ports:
+      - 3306:3306
+    env_file:
+      - ./.env
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+    networks:
+      - default
+    healthcheck:
+      test: mysql -u $MYSQL_USER --port $MYSQL_PORT -h $MYSQL_HOST -p$MYSQL_PASSWORD -D $MYSQL_DATABASE -e 'exit'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    tty: true
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    networks:
+      - default
+
+networks:
+  default:
+
+volumes:
+  mysql_data:

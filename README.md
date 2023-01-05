@@ -1,6 +1,7 @@
 # Go-echo-gorm-rest
 
 REST API with golang echo and gorm
+Supports hot realoding in development by air
 
 ## Setup
 

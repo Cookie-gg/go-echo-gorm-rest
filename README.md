@@ -6,12 +6,13 @@ REST API with golang echo and gorm
 
 1. make env file
 
+※ These values are sample, use unique values in your environment.
+
 ```.env
-MYSQL_ROOT_PASSWORD="drowssap"
+MYSQL_ROOT_PASSWORD="password"
 MYSQL_DATABASE="development"
-MYSQL_USER="dev"
-MYSQL_PASSWORD="drowssap"
-MYSQL_ROOT_HOST="%"
+MYSQL_USER="user"
+MYSQL_PASSWORD="password"
 MYSQL_PORT=3306
 MYSQL_HOST="db"
 ```

@@ -1,21 +1,15 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"go-echo-gorm-rest/controllers"
-	"go-echo-gorm-rest/models"
+	"go-echo-gorm-rest/model"
+	"go-echo-gorm-rest/router"
 )
 
 func main() {
-	e := echo.New()
-
-	db, _ := models.DB.DB()
+	gormDB, _ := model.InitDB()
+	db, _ := gormDB.DB()
 	defer db.Close()
 
-	e.GET("/user/:id", controllers.GetUser)
-	e.POST("/user", controllers.CreateUser)
-	e.PUT("/user/:id", controllers.UpdateUser)
-	e.DELETE("/user/:id", controllers.DeleteUser)
-
+	e := router.NewRouter(gormDB)
 	e.Logger.Fatal(e.Start(":3000"))
 }

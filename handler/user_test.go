@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUser(t *testing.T) {
+func TestGetUser(t *testing.T) {
 
 	mockDB, sqlMock, c, rec, _ := Setup(t)
 

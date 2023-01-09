@@ -22,17 +22,22 @@ func (h *UserHandler) CreateUser(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
-	user, _ = h.userService.Create()
+	err := h.userService.Create(&user)
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusCreated, user)
 }
 
 func (h *UserHandler) GetUser(c echo.Context) error {
-	id := c.Param("id")
 	user := model.User{}
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
-	user, _ = h.userService.Get(id)
+	err := h.userService.Get(&user)
+	if err != nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, user)
 }
 
@@ -41,7 +46,7 @@ func (h *UserHandler) UpdateUser(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
-	h.userService.Update()
+	h.userService.Update(&user)
 	return c.NoContent(http.StatusNoContent)
 }
 
@@ -50,6 +55,6 @@ func (h *UserHandler) DeleteUser(c echo.Context) error {
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
-	h.userService.Delete()
+	h.userService.Delete(&user)
 	return c.NoContent(http.StatusNoContent)
 }

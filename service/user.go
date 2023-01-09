@@ -14,19 +14,15 @@ func CreateUserService(db *gorm.DB) *UserService {
 	return &UserService{db}
 }
 
-func (m *UserService) Create() (user model.User, err error) {
-	m.db.Create(&user)
-	return
+func (m *UserService) Create(user *model.User) error {
+	return m.db.Debug().Create(user).Error
 }
-func (m *UserService) Get(id string) (user model.User, err error) {
-	m.db.First(&user, id)
-	return
+func (m *UserService) Get(user *model.User, filters ...interface{}) error {
+	return m.db.Debug().Take(user, filters).Error
 }
-func (m *UserService) Update() (user model.User, err error) {
-	m.db.Save(&user)
-	return
+func (m *UserService) Update(user *model.User) error {
+	return m.db.Save(&user).Error
 }
-func (m *UserService) Delete() (user model.User, err error) {
-	m.db.Delete(&user)
-	return
+func (m *UserService) Delete(user *model.User) error {
+	return m.db.Delete(&user).Error
 }

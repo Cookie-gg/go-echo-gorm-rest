@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 	"github.com/DATA-DOG/go-sqlmock"
-	_ "github.com/go-sql-driver/mysql"
+	sql "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
@@ -38,6 +38,7 @@ func InitDBMock() (*gorm.DB, sqlmock.Sqlmock, error) {
 	db, err := gorm.Open(mysql.New(
 		mysql.Config{
 			Conn:                      MockDB,
+			DSNConfig:                 &sql.Config{ParseTime: true},
 			SkipInitializeWithVersion: true,
 		}),
 		&gorm.Config{},

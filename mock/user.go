@@ -30,15 +30,6 @@ var Profile = model.Profile{
 	UserID:   1,
 }
 
-var UserWithProfile = model.User{
-	ID:        User.ID,
-	Name:      User.Name,
-	CreatedAt: User.CreatedAt,
-	UpdatedAt: User.UpdatedAt,
-	DeletedAt: User.DeletedAt,
-	Profile:   Profile,
-}
-
 var userJsonByte, _ = json.Marshal(User)
 
 var UserJson = fmt.Sprintf("%s\n", string(userJsonByte))

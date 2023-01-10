@@ -21,7 +21,7 @@ func TestCreateUser(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	sqlMock.ExpectCommit()
 
-	assert.NoError(t, s.Create(&mock.UserWithProfile))
+	assert.NoError(t, s.Create(&mock.User))
 }
 
 func TestGetUser(t *testing.T) {

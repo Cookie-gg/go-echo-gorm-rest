@@ -23,7 +23,7 @@ func InitDB() (*gorm.DB, error) {
 
 	log.Println("db connected!")
 
-	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(&User{}, &Profile{})
 
 	return DB, err
 }

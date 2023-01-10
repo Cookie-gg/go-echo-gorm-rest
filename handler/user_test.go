@@ -43,10 +43,10 @@ func TestCreateUser(t *testing.T) {
 
 	h := handler.CreateUserHandler(mockDB)
 
-	query := "INSERT INTO `users`"
-
 	sqlMock.ExpectBegin()
-	sqlMock.ExpectExec(regexp.QuoteMeta(query)).
+	sqlMock.ExpectExec(regexp.QuoteMeta("INSERT INTO `users`")).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+	sqlMock.ExpectExec(regexp.QuoteMeta("INSERT INTO `profiles`")).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	sqlMock.ExpectCommit()
 
@@ -67,12 +67,40 @@ func TestGetUser(t *testing.T) {
 	c.SetParamNames("id")
 	c.SetParamValues("1")
 
-	query := "SELECT * FROM `users` WHERE `users`.`deleted_at` IS NULL AND `users`.`id` = ? LIMIT 1"
+	query := "SELECT * FROM `profiles` WHERE `profiles`.`user_id` = ?"
 
-	sqlMock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(sqlmock.NewRows(model.UserColumns).AddRow(mock.User.ID, mock.User.Name, mock.User.CreatedAt, mock.User.UpdatedAt, mock.User.DeletedAt))
+	sqlMock.MatchExpectationsInOrder(false)
+	sqlMock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(sqlmock.NewRows(mock.ProfileColumns).AddRow(mock.Profile.Age, mock.Profile.Facebook, mock.Profile.Gender, mock.Profile.ID, mock.Profile.Twitter, mock.Profile.UserID))
+
+	query = "SELECT * FROM `users` WHERE `users`.`deleted_at` IS NULL AND `users`.`id` = ? LIMIT 1"
+
+	sqlMock.MatchExpectationsInOrder(false)
+	sqlMock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(sqlmock.NewRows(mock.UserColumns).AddRow(mock.User.CreatedAt, mock.User.DeletedAt, mock.User.ID, mock.User.Name, mock.User.UpdatedAt))
 
 	if assert.NoError(t, h.GetUser(c)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 		assert.Equal(t, mock.UserJson, rec.Body.String())
+	}
+}
+
+func TestGetUserProfile(t *testing.T) {
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	c := e.NewContext(req, rec)
+
+	h := handler.CreateUserHandler(mockDB)
+
+	c.SetPath("/user/:id/profile")
+	c.SetParamNames("id")
+	c.SetParamValues("1")
+
+	query := "SELECT * FROM `profiles` WHERE `profiles`.`user_id` = ? LIMIT 1"
+
+	sqlMock.MatchExpectationsInOrder(false)
+	sqlMock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(1).WillReturnRows(sqlmock.NewRows(mock.ProfileColumns).AddRow(mock.Profile.Age, mock.Profile.Facebook, mock.Profile.Gender, mock.Profile.ID, mock.Profile.Twitter, mock.Profile.UserID))
+
+	if assert.NoError(t, h.GetUserProfile(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, mock.ProfileJson, rec.Body.String())
 	}
 }

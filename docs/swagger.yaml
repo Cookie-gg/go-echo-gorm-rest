@@ -1,0 +1,169 @@
+basePath: /
+definitions:
+  model.Profile:
+    properties:
+      age:
+        type: integer
+      facebook:
+        description: nullable
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      twitter:
+        description: nullable
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.User:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        description: nullable
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      profile:
+        $ref: '#/definitions/model.Profile'
+      updated_at:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  license:
+    name: cookie_gg
+  title: go-echo-gorm-rest
+  version: "1.0"
+paths:
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: create a user by id
+      parameters:
+      - description: request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "500":
+          description: Internal Server Error
+      summary: create a user by id
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: update a user
+      parameters:
+      - description: request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: update a user
+      tags:
+      - User
+  /user/{id}:
+    delete:
+      description: delete a user by user id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: delete a user by user id
+      tags:
+      - User
+    get:
+      description: get user by id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.User'
+        "500":
+          description: Internal Server Error
+      summary: get user by id
+      tags:
+      - User
+  /user/{id}/profile:
+    get:
+      description: get a user profile by user id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "500":
+          description: Internal Server Error
+      summary: get a user profile by user id
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: update a profile by user id
+      parameters:
+      - description: request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.Profile'
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "500":
+          description: Internal Server Error
+      summary: update a profile by user id
+      tags:
+      - User
+swagger: "2.0"

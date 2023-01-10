@@ -219,7 +219,8 @@ const docTemplate = `{
                 },
                 "facebook": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "gender": {
                     "type": "string"
@@ -229,7 +230,8 @@ const docTemplate = `{
                 },
                 "twitter": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "user_id": {
                     "type": "integer"
@@ -244,7 +246,8 @@ const docTemplate = `{
                 },
                 "deleted_at": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "id": {
                     "type": "integer"

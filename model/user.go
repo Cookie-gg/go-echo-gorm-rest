@@ -11,6 +11,6 @@ type User struct {
 	Name      string         `json:"name"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at" swaggertype:"string"` // nullable
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at" swaggertype:"string" extensions:"x-nullable"` // nullable
 	Profile   Profile        `json:"profile"`
 }

@@ -211,7 +211,8 @@
                 },
                 "facebook": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "gender": {
                     "type": "string"
@@ -221,7 +222,8 @@
                 },
                 "twitter": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "user_id": {
                     "type": "integer"
@@ -236,7 +238,8 @@
                 },
                 "deleted_at": {
                     "description": "nullable",
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "id": {
                     "type": "integer"
